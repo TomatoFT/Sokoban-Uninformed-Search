@@ -9,7 +9,7 @@ class Level:
     def load(self, level):
         self.structure = []
         max_width = 0
-        with open("assets/levels/level_" + str(level) + ".txt") as level_file:
+        with open("assets/sokobanLevels/test" + str(level) + ".txt") as level_file:
             rows = level_file.read().split('\n')
 
             for y in range(len(rows)):
@@ -20,13 +20,18 @@ class Level:
                 for x in range(len(rows[y])):
                     if rows[y][x] == ' ':
                         level_row.append(SOKOBAN.AIR)
-                    elif rows[y][x] == 'X':
+                    elif rows[y][x] == '#':
                         level_row.append(SOKOBAN.WALL)
-                    elif rows[y][x] == '*':
+                    elif rows[y][x] == 'B':
                         level_row.append(SOKOBAN.BOX)
                     elif rows[y][x] == '.':
                         level_row.append(SOKOBAN.TARGET)
-                    elif rows[y][x] == '@':
+                    # elif rows[y][x] == '+':
+                    #     level_row.append(SOKOBAN.TARGET)
+                        # self.position_player = [x,y]
+                    elif rows[y][x] == 'X':
+                        level_row.append(SOKOBAN.TARGET_FILLED)
+                    elif rows[y][x] == '&':
                         level_row.append(SOKOBAN.AIR)
                         self.position_player = [x,y]
                 self.structure.append(level_row)

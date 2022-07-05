@@ -6,7 +6,22 @@ from level import *
 from player import *
 from scores import *
 from player_interface import *
+from solver import *
+from pyautogui import press, typewrite, hotkey
 
+import _thread
+import time
+def move( threadName, delay, strategy):
+    for step in strategy:
+        if step in ['R','r']:
+            press('right')
+        if step in ['L','l']:
+            press('left')
+        if step in ['D','d']:
+            press('down')
+        if step in ['U','u']:
+            press('up')
+        # time.sleep(0.2)
 class Game:
     def __init__(self, window):
         self.window = window
@@ -50,10 +65,12 @@ class Game:
                 # Quit game
                 self.play = False
             if event.key in [K_UP, K_DOWN, K_LEFT, K_RIGHT, K_z, K_s, K_q, K_d]:
-                # Move player
+                # Move players
                 self.player.move(event.key, self.level, self.player_interface)
                 if self.has_win():
                     self.index_level += 1
+                    if (self.index_level == 18):
+                        self.index_level = 1
                     self.scores.save()
                     self.load_level()
             if event.key == K_r:
@@ -90,3 +107,21 @@ class Game:
                     nb_missing_target += 1
 
         return nb_missing_target == 0
+        
+    def auto_move(self):
+        print("level: ", self.index_level)
+        strategy = get_move(self.level.structure[:-1], self.level.position_player, 'dfs')
+        # strategy = get_move(self.level.structure[:-1], self.level.position_player, 'bfs')
+        # strategy = get_move(self.level.structure[:-1], self.level.position_player, 'ucs')
+        # with open("assets/sokobanSolver/Solverlevel_" + str(self.index_level) + ".txt", 'w+') as solver_file:
+        #     for listitem in strategy:
+        #         solver_file.write('%s, ' % listitem)
+        if strategy is not None:
+            try:
+                _thread.start_new_thread( move, ("Thread-1", 2, strategy) )
+            except:
+                print ("Error: unable to start thread")
+
+
+# Define a function for the thread
+

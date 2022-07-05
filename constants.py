@@ -6,12 +6,12 @@ WINDOW_WIDTH  = 1024
 WINDOW_HEIGHT = 768
 
 # Blocks
+AIR             = 0
 WALL            = 1
-BOX             = 2
-TARGET          = 3
-TARGET_FILLED   = 4
-PLAYER          = 5
-AIR             = 6
+PLAYER          = 2
+BOX             = 3
+TARGET          = 4
+TARGET_FILLED   = 5
 
 UP      = 100
 DOWN    = 101
